@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharm-E-co App Download | 棄「藥」投明 App 下載</title>
+    
+    <!-- iOS Web App 設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pharm-E-co">
+
+    <style>
+        :root {
+            --primary-color: #149B93;   /* Pharm-E-co 主題青綠色 */
+            --primary-hover: #0d706a;
+            --text-main: #2c3e50;
+            --text-sub: #555555;
+            --btn-sub-bg: rgba(240, 247, 247, 0.9);
+            --ios-color: #007AFF;      /* Apple 經典藍 */
+            --ios-bg: rgba(240, 246, 255, 0.9);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 15px;
+            background-color: #f0f4f4;
+            overflow-x: hidden;
+        }
+
+        /* 🖼️ 設定圖片為全螢幕透明背景 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('bg.png'); /* 使用上傳的載入頁圖片 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.18; /* 透明度設定：18% */
+            filter: blur(1px); /* 微磨砂感 */
+            z-index: -1;
+        }
+
+        /* 📱 響應式下載卡片 */
+        .download-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 440px;
+            border-radius: 24px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(20, 155, 147, 0.15);
+            padding: 32px 24px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 雙語標籤與標題 */
+        .tag {
+            display: inline-block;
+            background-color: #e0f2f1;
+            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .slogan {
+            font-size: 20px;
+            font-weight: 700;
+            color: #222222;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        /* 平台分區標題 */
+        .platform-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #888888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: left;
+            margin: 16px 0 8px 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .platform-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        /* 按鈕組排版 */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 14px 18px;
+            border-radius: 16px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            text-align: left;
+            border: 2px solid transparent;
+        }
+
+        /* 🤖 Android 手機端按鈕 */
+        .btn-phone {
+            background: linear-gradient(135deg, #149B93 0%, #0d706a 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(20, 155, 147, 0.25);
+        }
+
+        /* 🤖 Android 平板端按鈕 */
+        .btn-tablet {
+            background-color: var(--btn-sub-bg);
+            color: var(--primary-color);
+            border-color: #b2dfdb;
+        }
+
+        /* 🍎 iOS / 網頁版按鈕 */
+        .btn-ios {
+            background-color: var(--ios-bg);
+            color: var(--ios-color);
+            border-color: #cce4ff;
+            box-shadow: 0 4px 14px rgba(0, 122, 255, 0.12);
+        }
+
+        .btn-download:active {
+            transform: scale(0.98);
+        }
+
+        .btn-icon {
+            margin-right: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-title {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .btn-desc {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-top: 3px;
+        }
+
+        /* 雙語安裝說明 */
+        .install-notice {
+            background-color: #fff9e6;
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 12px;
+            color: #665c3b;
+            line-height: 1.5;
+        }
+
+        .install-notice strong {
+            color: #d97706;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .notice-en {
+            margin-top: 4px;
+            padding-top: 4px;
+            border-top: 1px dashed #f0c36d;
+            font-size: 11px;
+            color: #786328;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="download-card">
+        <!-- 比賽專屬雙語標籤 -->
+        <div class="tag">The 59th Joint School Science Exhibition(PH11)</div>
+
+        <!-- 作品名稱與雙語標語 -->
+        <h1>PHARM-E-CO</h1>
+        <div class="slogan">棄「藥」投明</div>
+        <div class="subtitle">
+            藥品回收與積分兌換演示應用程式<br>
+            <i>Eco-Pill Recycling & Reward Demonstration App</i>
+        </div>
+
+        <!-- 🤖 Android 專區 -->
+        <div class="platform-title">Android 裝置 (APK 下載)</div>
+        <div class="btn-group">
+            
+            <!-- 手機端 APK 按鈕 -->
+            <a href="Pharm-E-co App_phone.apk" download="Pharm-E-co App_phone.apk" class="btn-download btn-phone">
+                <div class="btn-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                </div>
+                <div class="btn-text">
+                    <span class="btn-title">手機端下載 / Phone Version</span>
+                    <span class="btn-desc">適用於 Android 智慧型手機 (APK)</span>
+                </div>
+            </a>
+
+            <!-- 平板端 APK 按鈕 -->
+            <a href="Pharm-E-co App_Tablet.apk" download="Pharm-E-co App_Tablet.apk" class="btn-download btn-tablet">
+                <div class="btn-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                </div>
+                <div class="btn-text">
+                    <span class="btn-title">平板端下載 / Tablet Version</span>
+                    <span class="btn-desc">適用於 Android 平板裝置 (APK)</span>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- 🍎 iOS / 通用專區 -->
+        <div class="platform-title">iOS / 線上體驗</div>
+        <div class="btn-group">
+            
+            <!-- 網頁版本按鈕（直接跳轉） -->
+            <a href="https://ryolinkevin.github.io/Pharm-E-co-AppWeb/" class="btn-download btn-ios">
+                <div class="btn-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                </div>
+                <div class="btn-text">
+                    <span class="btn-title">網頁版本 / Web Version</span>
+                    <span class="btn-desc">適配所有裝置</span>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- 雙語安裝說明 -->
+        <div class="install-notice">
+            <strong>💡 提示 / Notice:</strong>
+            Android 請下載 APK 安裝；iOS 及其他裝置用戶請點擊「網頁版本」直接線上開啟體驗[cite: 1]。
+            <div class="notice-en">
+                Android users please download APK. iOS & other devices users can click "Web Version" for instant access[cite: 1].
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
